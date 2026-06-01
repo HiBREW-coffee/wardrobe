@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="衣橱">
+<title>衣橱 · Wardrobe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0ede8;
+  --white: #ffffff;
+  --black: #1c1917;
+  --gray1: #f7f5f2;
+  --gray2: #e8e3db;
+  --gray3: #bfb8ae;
+  --gray4: #8a837a;
+  --text: #1c1917;
+  --text2: #8a837a;
+  --green: #4a6741;
+  --red: #8a4a42;
+  --radius-sm: 14px;
+  --radius: 22px;
+  --safe-top: env(safe-area-inset-top, 44px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body {
+  height: 100%; overflow: hidden;
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; }
+
+.statusbar-space { height: calc(var(--safe-top) + 2px); background: var(--bg); flex-shrink: 0; }
+
+/* ── TOP NAV ── */
+.topnav { background: var(--bg); padding: 0 20px 14px; flex-shrink: 0; }
+.topnav-row1 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+
+.app-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: -0.5px;
+}
+.app-title span {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray3);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.add-btn {
+  width: 38px; height: 38px;
+  background: var(--black); color: var(--white);
+  border: none; border-radius: 50%;
+  font-size: 22px; font-weight: 300;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.add-btn:active { transform: scale(0.88); }
+
+/* ── SEGMENT ── */
+.seg-wrap {
+  display: flex;
+  background: var(--gray2);
+  border-radius: 50px;
+  padding: 4px;
+  gap: 2px;
+}
+.seg-btn {
+  flex: 1;
+  padding: 9px 0;
+  border: none; border-radius: 46px;
+  background: transparent;
+  font-size: 13px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.seg-btn.active { background: var(--black); color: var(--white); font-weight: 600; }
+
+/* ── DATE HEADER ── */
+.date-header { padding: 6px 20px 16px; flex-shrink: 0; }
+
+.date-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--black);
+  letter-spacing: -3px;
+}
+.date-sub {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 5px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+.stats-row { display: flex; gap: 0; margin-top: 16px; align-items: stretch; }
+.stat { padding: 0 18px; }
+.stat:first-child { padding-left: 0; }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px; font-weight: 700;
+  color: var(--black); line-height: 1;
+}
+.stat-num.green { color: var(--green); }
+.stat-num.red { color: var(--red); }
+.stat-label { font-size: 10px; color: var(--text2); margin-top: 3px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; }
+.stat-divider { width: 1px; background: var(--gray3); align-self: stretch; margin: 2px 0; }
+
+/* ── CONTENT ── */
+.content {
+  flex: 1; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 20px 16px;
+  padding-bottom: calc(60px + var(--safe-bottom));
+}
+
+.section-label {
+  font-size: 10px; font-weight: 600;
+  color: var(--text2); text-transform: uppercase;
+  letter-spacing: 2px; margin-bottom: 14px;
+}
+
+/* ── GRID ── */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s;
+  position: relative;
+}
+.card:active { transform: scale(0.96); }
+
+.card-img-wrap {
+  width: 100%; aspect-ratio: 3/4;
+  background: var(--gray1);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+.card-img-placeholder {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 100%; width: 100%;
+  padding: 16px;
+}
+.placeholder-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 700;
+  color: var(--gray4); text-align: center;
+  line-height: 1.4;
+}
+.placeholder-cat {
+  font-size: 10px; color: var(--gray3);
+  margin-top: 6px; letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.card-body { padding: 10px 13px 13px; }
+.card-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--text);
+}
+.card-meta { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+.card-badge {
+  position: absolute; top: 9px; right: 9px;
+  font-size: 9px; font-weight: 700;
+  padding: 3px 8px; border-radius: 20px;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.badge-clean { background: rgba(255,255,255,0.92); color: var(--green); }
+.badge-dirty { background: rgba(255,255,255,0.92); color: var(--red); }
+
+/* ── EMPTY ── */
+.empty { text-align: center; padding: 60px 0; }
+.empty-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px; color: var(--text2); line-height: 1.8;
+}
+
+/* ── LAUNDRY SUMMARY ── */
+.laundry-summary {
+  background: var(--white); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 20px;
+  display: flex; justify-content: space-around; align-items: center;
+}
+.ls-divider { width: 1px; height: 44px; background: var(--gray2); }
+
+/* ── FOOTER ── */
+.footer {
+  flex-shrink: 0;
+  padding: 9px 20px calc(9px + var(--safe-bottom));
+  text-align: center;
+  background: var(--bg);
+  border-top: 1px solid var(--gray2);
+}
+.footer p { font-size: 9px; color: var(--gray3); line-height: 1.7; }
+.footer a { color: var(--gray3); text-decoration: none; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(28,25,23,0.55);
+  z-index: 300; align-items: flex-end;
+  max-width: 430px; left: 50%; transform: translateX(-50%);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 28px 28px 0 0;
+  padding: 22px 20px;
+  width: 100%;
+  padding-bottom: calc(22px + var(--safe-bottom));
+  animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
+  max-height: 92vh; overflow-y: auto;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle { width: 36px; height: 4px; background: var(--gray2); border-radius: 2px; margin: 0 auto 22px; }
+.modal-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px; font-weight: 900;
+  margin-bottom: 20px; letter-spacing: -0.3px;
+}
+
+/* Detail */
+.detail-img-wrap {
+  width: 100%; aspect-ratio: 3/4;
+  background: var(--gray1); border-radius: var(--radius);
+  overflow: hidden; margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.detail-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.detail-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px; font-weight: 900; margin-bottom: 4px;
+}
+.detail-meta { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.info-cell { background: var(--gray1); border-radius: var(--radius-sm); padding: 12px 14px; }
+.info-cell-label { font-size: 9px; color: var(--text2); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
+.info-cell-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 700; margin-top: 4px;
+}
+.action-row { display: flex; gap: 10px; }
+.btn {
+  flex: 1; padding: 15px;
+  border-radius: var(--radius-sm); border: none;
+  font-size: 14px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: transform 0.15s;
+}
+.btn:active { transform: scale(0.96); }
+.btn-black { background: var(--black); color: var(--white); }
+.btn-light { background: var(--gray1); color: var(--text); }
+.btn-blue { background: #e8eef5; color: #50689a; }
+
+/* Form */
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 10px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; display: block; }
+.form-input {
+  width: 100%; background: var(--gray1);
+  border: 1.5px solid var(--gray2);
+  border-radius: var(--radius-sm);
+  padding: 13px 14px; font-size: 15px;
+  font-family: 'DM Sans', sans-serif; color: var(--text);
+  outline: none; transition: border-color 0.15s;
+}
+.form-input:focus { border-color: var(--black); }
+.cat-row { display: flex; gap: 8px; }
+.cat-opt {
+  flex: 1; padding: 12px 0;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--gray2);
+  background: var(--gray1);
+  font-size: 14px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif; color: var(--text2);
+  cursor: pointer; text-align: center; transition: all 0.15s;
+}
+.cat-opt.selected { background: var(--black); color: var(--white); border-color: var(--black); }
+
+/* Upload */
+.img-upload-area {
+  width: 100%; aspect-ratio: 3/4;
+  background: var(--gray1);
+  border: 2px dashed var(--gray3); border-radius: var(--radius);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer; margin-bottom: 16px;
+  overflow: hidden; position: relative;
+  transition: border-color 0.15s;
+}
+.img-upload-area:active { border-color: var(--black); }
+.img-upload-area img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.upload-hint { font-size: 13px; color: var(--text2); text-align: center; line-height: 1.8; z-index: 1; }
+.upload-arrow {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px; color: var(--gray3); margin-bottom: 6px;
+}
+#file-input { display: none; }
+</style>
+</head>
+<body>
+
+<div class="statusbar-space"></div>
+
+<div class="topnav">
+  <div class="topnav-row1">
+    <div class="app-title">衣橱<span>Wardrobe</span></div>
+    <button class="add-btn" onclick="openAddModal()">+</button>
+  </div>
+  <div class="seg-wrap">
+    <button class="seg-btn active" id="seg-all" onclick="setFilter('全部')">全部</button>
+    <button class="seg-btn" id="seg-top" onclick="setFilter('上衣')">上衣</button>
+    <button class="seg-btn" id="seg-bottom" onclick="setFilter('裤子')">裤子</button>
+    <button class="seg-btn" id="seg-shoes" onclick="setFilter('鞋子')">鞋子</button>
+    <button class="seg-btn" id="seg-laundry" onclick="showLaundry()">待洗</button>
+  </div>
+</div>
+
+<div class="date-header" id="date-header"></div>
+<div class="content" id="content"></div>
+
+<div class="footer">
+  <p>© 2026 衣橱 Wardrobe X &nbsp;·&nbsp; Designed &amp; Developed by DONGWU東無<br>
+  联系支持 &nbsp;<a href="mailto:1113584898@qq.com">1113584898@qq.com</a></p>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detail-modal" onclick="closeModalOutside(event,'detail-modal')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="detail-img-wrap" id="dm-img-wrap"></div>
+    <div class="detail-name" id="dm-name"></div>
+    <div class="detail-meta" id="dm-meta"></div>
+    <div class="info-grid">
+      <div class="info-cell"><div class="info-cell-label">分类</div><div class="info-cell-val" id="dm-cat"></div></div>
+      <div class="info-cell"><div class="info-cell-label">颜色</div><div class="info-cell-val" id="dm-color"></div></div>
+      <div class="info-cell"><div class="info-cell-label">状态</div><div class="info-cell-val" id="dm-status"></div></div>
+      <div class="info-cell"><div class="info-cell-label">穿过</div><div class="info-cell-val" id="dm-count"></div></div>
+    </div>
+    <div class="action-row" id="dm-actions"></div>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal-overlay" id="add-modal" onclick="closeModalOutside(event,'add-modal')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">添加衣物</div>
+    <div class="img-upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+      <div class="upload-arrow">↑</div>
+      <div class="upload-hint">点击上传照片<br><span style="font-size:11px;color:var(--gray3)">从相册选择</span></div>
+    </div>
+    <input type="file" id="file-input" accept="image/*" onchange="handleImg(event)">
+    <div class="form-group">
+      <label class="form-label">名称</label>
+      <input class="form-input" id="new-name" placeholder="例：白色T恤" maxlength="24">
+    </div>
+    <div class="form-group">
+      <label class="form-label">颜色</label>
+      <input class="form-input" id="new-color" placeholder="例：白色" maxlength="12">
+    </div>
+    <div class="form-group">
+      <label class="form-label">分类</label>
+      <div class="cat-row" id="cat-row">
+        <button class="cat-opt selected" onclick="selectCat('上衣',this)">上衣</button>
+        <button class="cat-opt" onclick="selectCat('裤子',this)">裤子</button>
+        <button class="cat-opt" onclick="selectCat('鞋子',this)">鞋子</button>
+      </div>
+    </div>
+    <div class="action-row">
+      <button class="btn btn-light" onclick="closeModal('add-modal')">取消</button>
+      <button class="btn btn-black" onclick="saveCloth()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SK = 'wdx_v4';
+const CAT_LABEL = { '上衣':'上衣', '裤子':'裤子', '鞋子':'鞋子' };
+const WEEKDAYS = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+const MONTHS = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+
+function load() { try { return JSON.parse(localStorage.getItem(SK)) || defaultData(); } catch { return defaultData(); } }
+function save(d) { localStorage.setItem(SK, JSON.stringify(d)); }
+function defaultData() {
+  return { nextId:8, clothes:[
+    { id:1, name:'白色T恤', cat:'上衣', color:'白色', dirty:false, count:3, img:null },
+    { id:2, name:'格子衬衫', cat:'上衣', color:'蓝格', dirty:false, count:5, img:null },
+    { id:3, name:'黑色牛仔裤', cat:'裤子', color:'黑色', dirty:false, count:7, img:null },
+    { id:4, name:'卡其裤', cat:'裤子', color:'米色', dirty:false, count:2, img:null },
+    { id:5, name:'白色运动鞋', cat:'鞋子', color:'白色', dirty:false, count:6, img:null },
+    { id:6, name:'碎花连衣裙', cat:'上衣', color:'花色', dirty:true, count:2, img:null },
+    { id:7, name:'马丁靴', cat:'鞋子', color:'棕色', dirty:true, count:3, img:null },
+  ]};
+}
+
+let DB = load();
+let currentFilter = '全部';
+let isLaundry = false;
+let selectedId = null;
+let newCat = '上衣';
+let newImgData = null;
+
+function renderDateHeader() {
+  const now = new Date();
+  const d = String(now.getDate()).padStart(2,'0');
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const clean = DB.clothes.filter(c=>!c.dirty).length;
+  const dirty = DB.clothes.filter(c=>c.dirty).length;
+  document.getElementById('date-header').innerHTML = `
+    <div class="date-big">${d}.${m}</div>
+    <div class="date-sub">${WEEKDAYS[now.getDay()]} &nbsp;·&nbsp; ${MONTHS[now.getMonth()]} ${now.getFullYear()}</div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">${DB.clothes.length}</div><div class="stat-label">总计</div></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><div class="stat-num green">${clean}</div><div class="stat-label">可穿</div></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><div class="stat-num red">${dirty}</div><div class="stat-label">待洗</div></div>
+    </div>`;
+}
+
+function setFilter(f) {
+  isLaundry = false; currentFilter = f;
+  const m = { '全部':'all','上衣':'top','裤子':'bottom','鞋子':'shoes' };
+  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('seg-'+m[f])?.classList.add('active');
+  renderDateHeader(); renderGrid();
+}
+
+function showLaundry() {
+  isLaundry = true;
+  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('seg-laundry').classList.add('active');
+  renderDateHeader(); renderLaundryPage();
+}
+
+function cardHTML(c) {
+  const img = c.img
+    ? `<img src="${c.img}" alt="${c.name}">`
+    : `<div class="card-img-placeholder"><div class="placeholder-name">${c.name}</div><div class="placeholder-cat">${CAT_LABEL[c.cat]}</div></div>`;
+  return `<div class="card" onclick="openDetail(${c.id})">
+    <div class="card-img-wrap">${img}
+      <span class="card-badge ${c.dirty?'badge-dirty':'badge-clean'}">${c.dirty?'待洗':'可穿'}</span>
+    </div>
+    <div class="card-body">
+      <div class="card-name">${c.name}</div>
+      <div class="card-meta">${CAT_LABEL[c.cat]} · ${c.color}</div>
+    </div>
+  </div>`;
+}
+
+function renderGrid() {
+  let items = DB.clothes.filter(c=>!c.dirty);
+  if (currentFilter !== '全部') items = items.filter(c=>c.cat===currentFilter);
+  const el = document.getElementById('content');
+  el.innerHTML = items.length === 0
+    ? `<div class="empty"><div class="empty-text">这里还没有衣服<br>点击 + 添加第一件</div></div>`
+    : `<div class="section-label">可穿 · ${items.length} 件</div><div class="grid">${items.map(cardHTML).join('')}</div>`;
+}
+
+function renderLaundryPage() {
+  const dirty = DB.clothes.filter(c=>c.dirty);
+  const clean = DB.clothes.filter(c=>!c.dirty).length;
+  const el = document.getElementById('content');
+  el.innerHTML = `
+    <div class="laundry-summary">
+      <div class="stat" style="text-align:center"><div class="stat-num">${DB.clothes.length}</div><div class="stat-label">总计</div></div>
+      <div class="ls-divider"></div>
+      <div class="stat" style="text-align:center"><div class="stat-num green">${clean}</div><div class="stat-label">可穿</div></div>
+      <div class="ls-divider"></div>
+      <div class="stat" style="text-align:center"><div class="stat-num red">${dirty.length}</div><div class="stat-label">待洗</div></div>
+    </div>
+    ${dirty.length > 0
+      ? `<div class="section-label">待洗 · ${dirty.length} 件</div><div class="grid">${dirty.map(cardHTML).join('')}</div>`
+      : `<div class="empty"><div class="empty-text">没有待洗衣物<br>全部干净整洁 ✓</div></div>`}`;
+}
+
+function openDetail(id) {
+  selectedId = id;
+  const c = DB.clothes.find(x=>x.id===id);
+  document.getElementById('dm-img-wrap').innerHTML = c.img
+    ? `<img src="${c.img}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover">`
+    : `<div style="text-align:center;padding:24px"><div style="font-family:'Noto Serif SC',serif;font-size:18px;font-weight:700;color:var(--gray4)">${c.name}</div><div style="font-size:11px;color:var(--gray3);margin-top:6px;letter-spacing:1px;text-transform:uppercase">${CAT_LABEL[c.cat]}</div></div>`;
+  document.getElementById('dm-name').textContent = c.name;
+  document.getElementById('dm-meta').textContent = `${CAT_LABEL[c.cat]} · ${c.color}`;
+  document.getElementById('dm-cat').textContent = CAT_LABEL[c.cat];
+  document.getElementById('dm-color').textContent = c.color;
+  document.getElementById('dm-status').textContent = c.dirty ? '待洗' : '干净';
+  document.getElementById('dm-count').textContent = c.count + ' 次';
+  document.getElementById('dm-actions').innerHTML = c.dirty
+    ? `<button class="btn btn-light" onclick="deleteCloth(${id})">删除</button><button class="btn btn-blue" onclick="markWashed(${id})">标记已洗</button>`
+    : `<button class="btn btn-light" onclick="deleteCloth(${id})">删除</button><button class="btn btn-black" onclick="markWorn(${id})">今天穿了</button>`;
+  openModal('detail-modal');
+}
+
+function markWorn(id) { const c=DB.clothes.find(x=>x.id===id); c.dirty=true; c.count++; save(DB); closeModal('detail-modal'); isLaundry?showLaundry():setFilter(currentFilter); }
+function markWashed(id) { const c=DB.clothes.find(x=>x.id===id); c.dirty=false; save(DB); closeModal('detail-modal'); isLaundry?showLaundry():setFilter(currentFilter); }
+function deleteCloth(id) { if(!confirm('确定删除这件衣服？')) return; DB.clothes=DB.clothes.filter(x=>x.id!==id); save(DB); closeModal('detail-modal'); isLaundry?showLaundry():setFilter(currentFilter); }
+
+function openAddModal() {
+  newCat='上衣'; newImgData=null;
+  document.getElementById('new-name').value='';
+  document.getElementById('new-color').value='';
+  document.getElementById('file-input').value='';
+  document.getElementById('upload-area').innerHTML=`<div class="upload-arrow">↑</div><div class="upload-hint">点击上传照片<br><span style="font-size:11px;color:var(--gray3)">从相册选择</span></div>`;
+  document.querySelectorAll('.cat-opt').forEach((b,i)=>b.classList.toggle('selected',i===0));
+  openModal('add-modal');
+}
+function handleImg(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=ev=>{ newImgData=ev.target.result; document.getElementById('upload-area').innerHTML=`<img src="${newImgData}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">`; };
+  r.readAsDataURL(file);
+}
+function selectCat(c,el) { newCat=c; document.querySelectorAll('.cat-opt').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); }
+function saveCloth() {
+  const name=document.getElementById('new-name').value.trim();
+  const color=document.getElementById('new-color').value.trim()||'—';
+  if(!name){alert('请输入名称');return;}
+  DB.clothes.push({id:DB.nextId++,name,cat:newCat,color,dirty:false,count:0,img:newImgData});
+  save(DB); closeModal('add-modal'); setFilter('全部');
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function closeModalOutside(e,id){if(e.target.id===id)closeModal(id);}
+
+renderDateHeader();
+renderGrid();
+</script>
+</body>
+</html>
