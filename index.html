@@ -131,7 +131,13 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
 .footer a { color: var(--gray3); text-decoration: none; }
 
 /* ── DETAIL MODAL (bottom sheet) ── */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(28,25,23,0.55); z-index: 300; align-items: flex-end; max-width: 430px; left: 50%; transform: translateX(-50%); }
+/* 修复：底部详情弹窗遮罩层 */
+.modal-overlay { 
+  display: none; position: fixed; inset: 0; 
+  background: rgba(28,25,23,0.55); z-index: 300; 
+  align-items: flex-end; 
+  max-width: 430px; width: 100%; margin: 0 auto; 
+}
 .modal-overlay.open { display: flex; }
 .modal { background: var(--white); border-radius: 28px 28px 0 0; padding: 22px 20px; width: 100%; padding-bottom: calc(22px + var(--safe-bottom)); animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1); max-height: 88vh; overflow-y: auto; }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -154,9 +160,17 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
 .btn-blue { background: #e8eef5; color: #50689a; }
 
 /* ── ADD MODAL — centered dialog ── */
-.dialog-overlay { display: none; position: fixed; inset: 0; background: rgba(28,25,23,0.55); z-index: 400; align-items: center; justify-content: center; padding: 20px; max-width: 430px; left: 50%; transform: translateX(-50%); }
+/* 修复：居中添加弹窗遮罩层 */
+.dialog-overlay { 
+  display: none; position: fixed; inset: 0; 
+  background: rgba(28,25,23,0.55); z-index: 400; 
+  align-items: center; justify-content: center; padding: 20px; 
+  max-width: 430px; width: 100%; margin: 0 auto; 
+}
 .dialog-overlay.open { display: flex; }
+/* 修复：确保弹窗容器可以使用绝对定位的关闭按钮 */
 .dialog {
+  position: relative;
   background: var(--white);
   border-radius: 24px;
   width: 100%;
@@ -168,6 +182,30 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
 }
 @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .dialog-title { font-family: 'Noto Serif SC', serif; font-size: 18px; font-weight: 900; margin-bottom: 16px; }
+
+/* 新增：右上角关闭按钮样式 */
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: var(--gray1);
+  color: var(--gray4);
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.close-btn:active {
+  background: var(--gray2);
+  color: var(--black);
+}
 
 /* Upload in dialog — compact horizontal layout */
 .upload-row { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
@@ -226,7 +264,6 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
   联系支持 &nbsp;<a href="mailto:1113584898@qq.com">1113584898@qq.com</a></p>
 </div>
 
-<!-- Detail Modal (bottom sheet) -->
 <div class="modal-overlay" id="detail-modal" onclick="closeModalOutside(event,'detail-modal')">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -243,9 +280,10 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
   </div>
 </div>
 
-<!-- Add Dialog (centered) -->
 <div class="dialog-overlay" id="add-modal" onclick="closeModalOutside(event,'add-modal')">
   <div class="dialog">
+    <button class="close-btn" onclick="closeModal('add-modal')">✕</button>
+    
     <div class="dialog-title">添加衣物</div>
 
     <div class="upload-row">
