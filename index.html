@@ -23,7 +23,7 @@
   --green: #4a6741;
   --red: #8a4a42;
   --radius-sm: 14px;
-  --radius: 22px;
+  --radius: 20px;
   --safe-top: env(safe-area-inset-top, 44px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -42,285 +42,159 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
 /* ── TOP NAV ── */
 .topnav { background: var(--bg); padding: 0 20px 14px; flex-shrink: 0; }
 .topnav-row1 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-
-.app-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--black);
-  letter-spacing: -0.5px;
-}
-.app-title span {
-  font-family: 'Playfair Display', serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--gray3);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-left: 8px;
-  vertical-align: middle;
-}
-
-.add-btn {
+.app-title { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 900; color: var(--black); letter-spacing: -0.5px; }
+.app-title span { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: var(--gray3); letter-spacing: 3px; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
+.topnav-right { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
   width: 38px; height: 38px;
   background: var(--black); color: var(--white);
   border: none; border-radius: 50%;
-  font-size: 22px; font-weight: 300;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
   transition: transform 0.15s;
   font-family: 'DM Sans', sans-serif;
 }
-.add-btn:active { transform: scale(0.88); }
+.icon-btn.light { background: var(--gray2); color: var(--black); font-size: 14px; }
+.icon-btn:active { transform: scale(0.88); }
 
 /* ── SEGMENT ── */
-.seg-wrap {
-  display: flex;
-  background: var(--gray2);
-  border-radius: 50px;
-  padding: 4px;
-  gap: 2px;
-}
-.seg-btn {
-  flex: 1;
-  padding: 9px 0;
-  border: none; border-radius: 46px;
-  background: transparent;
-  font-size: 13px; font-weight: 500;
-  font-family: 'DM Sans', sans-serif;
-  color: var(--text2);
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
+.seg-wrap { display: flex; background: var(--gray2); border-radius: 50px; padding: 4px; gap: 2px; }
+.seg-btn { flex: 1; padding: 9px 0; border: none; border-radius: 46px; background: transparent; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; color: var(--text2); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
 .seg-btn.active { background: var(--black); color: var(--white); font-weight: 600; }
 
 /* ── DATE HEADER ── */
-.date-header { padding: 6px 20px 16px; flex-shrink: 0; }
-
-.date-big {
-  font-family: 'Playfair Display', serif;
-  font-size: 64px;
-  font-weight: 900;
-  line-height: 1;
-  color: var(--black);
-  letter-spacing: -3px;
-}
-.date-sub {
-  font-size: 12px;
-  color: var(--text2);
-  margin-top: 5px;
-  font-weight: 400;
-  letter-spacing: 0.3px;
-}
-.stats-row { display: flex; gap: 0; margin-top: 16px; align-items: stretch; }
+.date-header { padding: 6px 20px 14px; flex-shrink: 0; }
+.date-big { font-family: 'Playfair Display', serif; font-size: 64px; font-weight: 900; line-height: 1; color: var(--black); letter-spacing: -3px; }
+.date-sub { font-size: 12px; color: var(--text2); margin-top: 5px; font-weight: 400; letter-spacing: 0.3px; }
+.stats-row { display: flex; gap: 0; margin-top: 14px; align-items: stretch; }
 .stat { padding: 0 18px; }
 .stat:first-child { padding-left: 0; }
-.stat-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 30px; font-weight: 700;
-  color: var(--black); line-height: 1;
-}
+.stat-num { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--black); line-height: 1; }
 .stat-num.green { color: var(--green); }
 .stat-num.red { color: var(--red); }
 .stat-label { font-size: 10px; color: var(--text2); margin-top: 3px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; }
 .stat-divider { width: 1px; background: var(--gray3); align-self: stretch; margin: 2px 0; }
 
 /* ── CONTENT ── */
-.content {
-  flex: 1; overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 0 20px 16px;
-  padding-bottom: calc(60px + var(--safe-bottom));
-}
+.content { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 0 20px 16px; padding-bottom: calc(56px + var(--safe-bottom)); }
 
-.section-label {
-  font-size: 10px; font-weight: 600;
-  color: var(--text2); text-transform: uppercase;
-  letter-spacing: 2px; margin-bottom: 14px;
-}
+/* ── SECTION BAR ── */
+.section-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.section-label { font-size: 10px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 2px; }
+.view-toggle { display: flex; background: var(--gray2); border-radius: 8px; padding: 3px; gap: 2px; }
+.view-btn { width: 28px; height: 22px; border: none; border-radius: 6px; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+.view-btn.active { background: var(--white); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.view-btn svg { width: 14px; height: 14px; fill: var(--gray4); }
+.view-btn.active svg { fill: var(--black); }
 
-/* ── GRID ── */
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+/* ── GRID LARGE (2 col) ── */
+.grid-large { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-large .card-img-wrap { aspect-ratio: 3/4; }
+.grid-large .card-body { padding: 10px 13px 13px; display: block; }
+.grid-large .card-name { font-family: 'Noto Serif SC', serif; font-size: 13px; font-weight: 700; color: var(--text); }
+.grid-large .card-meta { font-size: 11px; color: var(--text2); margin-top: 3px; }
 
-.card {
-  background: var(--white);
-  border-radius: var(--radius);
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.15s;
-  position: relative;
-}
+/* ── GRID SMALL (5 col) ── */
+.grid-small { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+.grid-small .card { border-radius: 12px; }
+.grid-small .card-img-wrap { aspect-ratio: 1/1; border-radius: 12px 12px 0 0; }
+.grid-small .card-body { padding: 5px 6px 6px; }
+.grid-small .card-name { font-size: 10px; font-weight: 600; color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.grid-small .card-meta { display: none; }
+.grid-small .card-badge { font-size: 8px; padding: 2px 5px; top: 4px; right: 4px; }
+
+/* ── CARD COMMON ── */
+.card { background: var(--white); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: transform 0.15s; position: relative; }
 .card:active { transform: scale(0.96); }
-
-.card-img-wrap {
-  width: 100%; aspect-ratio: 3/4;
-  background: var(--gray1);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; position: relative;
-}
+.card-img-wrap { width: 100%; background: var(--gray1); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
 .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-
-.card-img-placeholder {
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  height: 100%; width: 100%;
-  padding: 16px;
-}
-.placeholder-name {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 14px; font-weight: 700;
-  color: var(--gray4); text-align: center;
-  line-height: 1.4;
-}
-.placeholder-cat {
-  font-size: 10px; color: var(--gray3);
-  margin-top: 6px; letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.card-body { padding: 10px 13px 13px; }
-.card-name {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 13px; font-weight: 700;
-  color: var(--text);
-}
-.card-meta { font-size: 11px; color: var(--text2); margin-top: 3px; }
-
-.card-badge {
-  position: absolute; top: 9px; right: 9px;
-  font-size: 9px; font-weight: 700;
-  padding: 3px 8px; border-radius: 20px;
-  letter-spacing: 1px; text-transform: uppercase;
-}
+.card-img-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; padding: 10px; }
+.placeholder-name { font-family: 'Noto Serif SC', serif; font-size: 13px; font-weight: 700; color: var(--gray4); text-align: center; line-height: 1.3; }
+.placeholder-cat { font-size: 9px; color: var(--gray3); margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+.grid-small .placeholder-name { font-size: 9px; }
+.grid-small .placeholder-cat { display: none; }
+.card-badge { position: absolute; top: 9px; right: 9px; font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 1px; text-transform: uppercase; }
 .badge-clean { background: rgba(255,255,255,0.92); color: var(--green); }
 .badge-dirty { background: rgba(255,255,255,0.92); color: var(--red); }
 
 /* ── EMPTY ── */
 .empty { text-align: center; padding: 60px 0; }
-.empty-text {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 15px; color: var(--text2); line-height: 1.8;
-}
+.empty-text { font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--text2); line-height: 1.8; }
 
-/* ── LAUNDRY SUMMARY ── */
-.laundry-summary {
-  background: var(--white); border-radius: var(--radius);
-  padding: 20px; margin-bottom: 20px;
-  display: flex; justify-content: space-around; align-items: center;
-}
+/* ── LAUNDRY ── */
+.laundry-summary { background: var(--white); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: center; }
 .ls-divider { width: 1px; height: 44px; background: var(--gray2); }
 
 /* ── FOOTER ── */
-.footer {
-  flex-shrink: 0;
-  padding: 9px 20px calc(9px + var(--safe-bottom));
-  text-align: center;
-  background: var(--bg);
-  border-top: 1px solid var(--gray2);
-}
+.footer { flex-shrink: 0; padding: 9px 20px calc(9px + var(--safe-bottom)); text-align: center; background: var(--bg); border-top: 1px solid var(--gray2); }
 .footer p { font-size: 9px; color: var(--gray3); line-height: 1.7; }
 .footer a { color: var(--gray3); text-decoration: none; }
 
-/* ── MODAL ── */
-.modal-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(28,25,23,0.55);
-  z-index: 300; align-items: flex-end;
-  max-width: 430px; left: 50%; transform: translateX(-50%);
-}
+/* ── DETAIL MODAL (bottom sheet) ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(28,25,23,0.55); z-index: 300; align-items: flex-end; max-width: 430px; left: 50%; transform: translateX(-50%); }
 .modal-overlay.open { display: flex; }
-.modal {
-  background: var(--white);
-  border-radius: 28px 28px 0 0;
-  padding: 22px 20px;
-  width: 100%;
-  padding-bottom: calc(22px + var(--safe-bottom));
-  animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
-  max-height: 92vh; overflow-y: auto;
-}
+.modal { background: var(--white); border-radius: 28px 28px 0 0; padding: 22px 20px; width: 100%; padding-bottom: calc(22px + var(--safe-bottom)); animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1); max-height: 88vh; overflow-y: auto; }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.modal-handle { width: 36px; height: 4px; background: var(--gray2); border-radius: 2px; margin: 0 auto 22px; }
-.modal-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 20px; font-weight: 900;
-  margin-bottom: 20px; letter-spacing: -0.3px;
-}
+.modal-handle { width: 36px; height: 4px; background: var(--gray2); border-radius: 2px; margin: 0 auto 20px; }
 
-/* Detail */
-.detail-img-wrap {
-  width: 100%; aspect-ratio: 3/4;
-  background: var(--gray1); border-radius: var(--radius);
-  overflow: hidden; margin-bottom: 16px;
-  display: flex; align-items: center; justify-content: center;
-}
+/* Detail content */
+.detail-img-wrap { width: 100%; aspect-ratio: 3/4; background: var(--gray1); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; }
 .detail-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-.detail-name {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 22px; font-weight: 900; margin-bottom: 4px;
-}
+.detail-name { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 900; margin-bottom: 4px; }
 .detail-meta { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
 .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
 .info-cell { background: var(--gray1); border-radius: var(--radius-sm); padding: 12px 14px; }
 .info-cell-label { font-size: 9px; color: var(--text2); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
-.info-cell-val {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px; font-weight: 700; margin-top: 4px;
-}
+.info-cell-val { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; margin-top: 4px; }
 .action-row { display: flex; gap: 10px; }
-.btn {
-  flex: 1; padding: 15px;
-  border-radius: var(--radius-sm); border: none;
-  font-size: 14px; font-weight: 600;
-  font-family: 'DM Sans', sans-serif;
-  cursor: pointer; transition: transform 0.15s;
-}
+.btn { flex: 1; padding: 15px; border-radius: var(--radius-sm); border: none; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: transform 0.15s; }
 .btn:active { transform: scale(0.96); }
 .btn-black { background: var(--black); color: var(--white); }
 .btn-light { background: var(--gray1); color: var(--text); }
 .btn-blue { background: #e8eef5; color: #50689a; }
 
-/* Form */
-.form-group { margin-bottom: 16px; }
-.form-label { font-size: 10px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; display: block; }
-.form-input {
-  width: 100%; background: var(--gray1);
-  border: 1.5px solid var(--gray2);
-  border-radius: var(--radius-sm);
-  padding: 13px 14px; font-size: 15px;
-  font-family: 'DM Sans', sans-serif; color: var(--text);
-  outline: none; transition: border-color 0.15s;
+/* ── ADD MODAL — centered dialog ── */
+.dialog-overlay { display: none; position: fixed; inset: 0; background: rgba(28,25,23,0.55); z-index: 400; align-items: center; justify-content: center; padding: 20px; max-width: 430px; left: 50%; transform: translateX(-50%); }
+.dialog-overlay.open { display: flex; }
+.dialog {
+  background: var(--white);
+  border-radius: 24px;
+  width: 100%;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  padding: 22px 18px 20px;
 }
-.form-input:focus { border-color: var(--black); }
-.cat-row { display: flex; gap: 8px; }
-.cat-opt {
-  flex: 1; padding: 12px 0;
-  border-radius: var(--radius-sm);
-  border: 1.5px solid var(--gray2);
-  background: var(--gray1);
-  font-size: 14px; font-weight: 500;
-  font-family: 'DM Sans', sans-serif; color: var(--text2);
-  cursor: pointer; text-align: center; transition: all 0.15s;
-}
-.cat-opt.selected { background: var(--black); color: var(--white); border-color: var(--black); }
+@keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.dialog-title { font-family: 'Noto Serif SC', serif; font-size: 18px; font-weight: 900; margin-bottom: 16px; }
 
-/* Upload */
+/* Upload in dialog — compact horizontal layout */
+.upload-row { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
 .img-upload-area {
-  width: 100%; aspect-ratio: 3/4;
+  flex-shrink: 0;
+  width: 110px; height: 140px;
   background: var(--gray1);
-  border: 2px dashed var(--gray3); border-radius: var(--radius);
+  border: 2px dashed var(--gray3); border-radius: 16px;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  cursor: pointer; margin-bottom: 16px;
-  overflow: hidden; position: relative;
+  cursor: pointer; overflow: hidden; position: relative;
   transition: border-color 0.15s;
 }
 .img-upload-area:active { border-color: var(--black); }
 .img-upload-area img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
-.upload-hint { font-size: 13px; color: var(--text2); text-align: center; line-height: 1.8; z-index: 1; }
-.upload-arrow {
-  font-family: 'Playfair Display', serif;
-  font-size: 32px; color: var(--gray3); margin-bottom: 6px;
-}
+.upload-hint { font-size: 11px; color: var(--text2); text-align: center; line-height: 1.6; z-index: 1; padding: 0 6px; }
+.upload-arrow { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gray3); margin-bottom: 4px; }
+.upload-fields { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+.form-label { font-size: 10px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; display: block; }
+.form-input { width: 100%; background: var(--gray1); border: 1.5px solid var(--gray2); border-radius: 10px; padding: 10px 12px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; transition: border-color 0.15s; }
+.form-input:focus { border-color: var(--black); }
+
+.cat-row { display: flex; gap: 6px; margin-bottom: 14px; }
+.cat-opt { flex: 1; padding: 10px 0; border-radius: 10px; border: 1.5px solid var(--gray2); background: var(--gray1); font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; color: var(--text2); cursor: pointer; text-align: center; transition: all 0.15s; }
+.cat-opt.selected { background: var(--black); color: var(--white); border-color: var(--black); }
+
 #file-input { display: none; }
 </style>
 </head>
@@ -331,7 +205,9 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
 <div class="topnav">
   <div class="topnav-row1">
     <div class="app-title">衣橱<span>Wardrobe</span></div>
-    <button class="add-btn" onclick="openAddModal()">+</button>
+    <div class="topnav-right">
+      <button class="icon-btn" onclick="openAddModal()">+</button>
+    </div>
   </div>
   <div class="seg-wrap">
     <button class="seg-btn active" id="seg-all" onclick="setFilter('全部')">全部</button>
@@ -350,7 +226,7 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
   联系支持 &nbsp;<a href="mailto:1113584898@qq.com">1113584898@qq.com</a></p>
 </div>
 
-<!-- Detail Modal -->
+<!-- Detail Modal (bottom sheet) -->
 <div class="modal-overlay" id="detail-modal" onclick="closeModalOutside(event,'detail-modal')">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -367,32 +243,36 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
   </div>
 </div>
 
-<!-- Add Modal -->
-<div class="modal-overlay" id="add-modal" onclick="closeModalOutside(event,'add-modal')">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">添加衣物</div>
-    <div class="img-upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
-      <div class="upload-arrow">↑</div>
-      <div class="upload-hint">点击上传照片<br><span style="font-size:11px;color:var(--gray3)">从相册选择</span></div>
-    </div>
-    <input type="file" id="file-input" accept="image/*" onchange="handleImg(event)">
-    <div class="form-group">
-      <label class="form-label">名称</label>
-      <input class="form-input" id="new-name" placeholder="例：白色T恤" maxlength="24">
-    </div>
-    <div class="form-group">
-      <label class="form-label">颜色</label>
-      <input class="form-input" id="new-color" placeholder="例：白色" maxlength="12">
-    </div>
-    <div class="form-group">
-      <label class="form-label">分类</label>
-      <div class="cat-row" id="cat-row">
-        <button class="cat-opt selected" onclick="selectCat('上衣',this)">上衣</button>
-        <button class="cat-opt" onclick="selectCat('裤子',this)">裤子</button>
-        <button class="cat-opt" onclick="selectCat('鞋子',this)">鞋子</button>
+<!-- Add Dialog (centered) -->
+<div class="dialog-overlay" id="add-modal" onclick="closeModalOutside(event,'add-modal')">
+  <div class="dialog">
+    <div class="dialog-title">添加衣物</div>
+
+    <div class="upload-row">
+      <div class="img-upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+        <div class="upload-arrow">↑</div>
+        <div class="upload-hint">点击上传<br><span style="font-size:10px;color:var(--gray3)">从相册选择</span></div>
+      </div>
+      <div class="upload-fields">
+        <div>
+          <label class="form-label">名称</label>
+          <input class="form-input" id="new-name" placeholder="例：白色T恤" maxlength="24">
+        </div>
+        <div>
+          <label class="form-label">颜色</label>
+          <input class="form-input" id="new-color" placeholder="例：白色" maxlength="12">
+        </div>
       </div>
     </div>
+    <input type="file" id="file-input" accept="image/*" onchange="handleImg(event)">
+
+    <label class="form-label">分类</label>
+    <div class="cat-row" id="cat-row">
+      <button class="cat-opt selected" onclick="selectCat('上衣',this)">上衣</button>
+      <button class="cat-opt" onclick="selectCat('裤子',this)">裤子</button>
+      <button class="cat-opt" onclick="selectCat('鞋子',this)">鞋子</button>
+    </div>
+
     <div class="action-row">
       <button class="btn btn-light" onclick="closeModal('add-modal')">取消</button>
       <button class="btn btn-black" onclick="saveCloth()">保存</button>
@@ -401,7 +281,7 @@ body { display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; 
 </div>
 
 <script>
-const SK = 'wdx_v4';
+const SK = 'wdx_v5';
 const CAT_LABEL = { '上衣':'上衣', '裤子':'裤子', '鞋子':'鞋子' };
 const WEEKDAYS = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
 const MONTHS = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
@@ -426,6 +306,11 @@ let isLaundry = false;
 let selectedId = null;
 let newCat = '上衣';
 let newImgData = null;
+let viewMode = 'large'; // 'large' | 'small'
+
+// SVG icons for view toggle
+const ICON_LARGE = `<svg viewBox="0 0 14 14"><rect x="0" y="0" width="6" height="6" rx="1"/><rect x="8" y="0" width="6" height="6" rx="1"/><rect x="0" y="8" width="6" height="6" rx="1"/><rect x="8" y="8" width="6" height="6" rx="1"/></svg>`;
+const ICON_SMALL = `<svg viewBox="0 0 14 14"><rect x="0" y="0" width="2.2" height="2.2" rx="0.5"/><rect x="3.8" y="0" width="2.2" height="2.2" rx="0.5"/><rect x="7.6" y="0" width="2.2" height="2.2" rx="0.5"/><rect x="11.4" y="0" width="2.2" height="2.2" rx="0.5"/><rect x="0" y="3.8" width="2.2" height="2.2" rx="0.5"/><rect x="3.8" y="3.8" width="2.2" height="2.2" rx="0.5"/><rect x="7.6" y="3.8" width="2.2" height="2.2" rx="0.5"/><rect x="11.4" y="3.8" width="2.2" height="2.2" rx="0.5"/><rect x="0" y="7.6" width="2.2" height="2.2" rx="0.5"/><rect x="3.8" y="7.6" width="2.2" height="2.2" rx="0.5"/><rect x="7.6" y="7.6" width="2.2" height="2.2" rx="0.5"/><rect x="11.4" y="7.6" width="2.2" height="2.2" rx="0.5"/></svg>`;
 
 function renderDateHeader() {
   const now = new Date();
@@ -443,6 +328,21 @@ function renderDateHeader() {
       <div class="stat-divider"></div>
       <div class="stat"><div class="stat-num red">${dirty}</div><div class="stat-label">待洗</div></div>
     </div>`;
+}
+
+function toggleView() {
+  viewMode = viewMode === 'large' ? 'small' : 'large';
+  isLaundry ? showLaundry() : setFilter(currentFilter);
+}
+
+function sectionBar(label) {
+  return `<div class="section-bar">
+    <div class="section-label">${label}</div>
+    <div class="view-toggle">
+      <button class="view-btn ${viewMode==='large'?'active':''}" onclick="toggleView()" title="大图">${ICON_LARGE}</button>
+      <button class="view-btn ${viewMode==='small'?'active':''}" onclick="toggleView()" title="小图">${ICON_SMALL}</button>
+    </div>
+  </div>`;
 }
 
 function setFilter(f) {
@@ -479,14 +379,18 @@ function renderGrid() {
   let items = DB.clothes.filter(c=>!c.dirty);
   if (currentFilter !== '全部') items = items.filter(c=>c.cat===currentFilter);
   const el = document.getElementById('content');
-  el.innerHTML = items.length === 0
-    ? `<div class="empty"><div class="empty-text">这里还没有衣服<br>点击 + 添加第一件</div></div>`
-    : `<div class="section-label">可穿 · ${items.length} 件</div><div class="grid">${items.map(cardHTML).join('')}</div>`;
+  if (items.length === 0) {
+    el.innerHTML = `${sectionBar('可穿 · 0 件')}<div class="empty"><div class="empty-text">这里还没有衣服<br>点击 + 添加第一件</div></div>`;
+    return;
+  }
+  const gridClass = viewMode === 'large' ? 'grid-large' : 'grid-small';
+  el.innerHTML = `${sectionBar(`可穿 · ${items.length} 件`)}<div class="${gridClass}">${items.map(cardHTML).join('')}</div>`;
 }
 
 function renderLaundryPage() {
   const dirty = DB.clothes.filter(c=>c.dirty);
   const clean = DB.clothes.filter(c=>!c.dirty).length;
+  const gridClass = viewMode === 'large' ? 'grid-large' : 'grid-small';
   const el = document.getElementById('content');
   el.innerHTML = `
     <div class="laundry-summary">
@@ -497,7 +401,7 @@ function renderLaundryPage() {
       <div class="stat" style="text-align:center"><div class="stat-num red">${dirty.length}</div><div class="stat-label">待洗</div></div>
     </div>
     ${dirty.length > 0
-      ? `<div class="section-label">待洗 · ${dirty.length} 件</div><div class="grid">${dirty.map(cardHTML).join('')}</div>`
+      ? `${sectionBar(`待洗 · ${dirty.length} 件`)}<div class="${gridClass}">${dirty.map(cardHTML).join('')}</div>`
       : `<div class="empty"><div class="empty-text">没有待洗衣物<br>全部干净整洁 ✓</div></div>`}`;
 }
 
@@ -528,7 +432,7 @@ function openAddModal() {
   document.getElementById('new-name').value='';
   document.getElementById('new-color').value='';
   document.getElementById('file-input').value='';
-  document.getElementById('upload-area').innerHTML=`<div class="upload-arrow">↑</div><div class="upload-hint">点击上传照片<br><span style="font-size:11px;color:var(--gray3)">从相册选择</span></div>`;
+  document.getElementById('upload-area').innerHTML=`<div class="upload-arrow">↑</div><div class="upload-hint">点击上传<br><span style="font-size:10px;color:var(--gray3)">从相册选择</span></div>`;
   document.querySelectorAll('.cat-opt').forEach((b,i)=>b.classList.toggle('selected',i===0));
   openModal('add-modal');
 }
